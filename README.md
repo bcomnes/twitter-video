@@ -8,7 +8,7 @@
 [travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
 [travis-url]: https://travis-ci.org/bcomnes/twitter-video
 
-
+Posts native video to twitter's difficult to use™ video API.
 
 ## Install
 
