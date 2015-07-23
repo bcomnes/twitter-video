@@ -8,7 +8,7 @@
 [travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
 [travis-url]: https://travis-ci.org/bcomnes/twitter-video
 
-
+Posts native video to twitter's difficult to use™ video API.
 
 ## Install
 
@@ -29,14 +29,14 @@ var oauth = {
   access_token_secret: '123'
 }
 
+var T = Twit(oauth)
 var PATH = '/path/to/video.mp4'
 
 twitterVideo(PATH, oauth, function (err, media_id) {
-  if (err) throw err
-  var params = {status: 'hi this is another test post', media_ids: [ media_id ]}
+  // Now you have a media ID you can post with a tweet
+  var params = {status: 'yolo', media_ids: [ media_id ]}
   T.post('statuses/update', params, function post (err, data, res) {
-    console.log(err)
-    console.log(data)
+    // Tweet with video is live
   })
 })
 ```
