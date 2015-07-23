@@ -1,0 +1,30 @@
+{
+  "name": "twitvid",
+  "version": "1.0.0",
+  "author": "Bret Comnes <bcomnes@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/bcomnes/twitvid/issues"
+  },
+  "devDependencies": {
+    "standard": "*",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.0"
+  },
+  "homepage": "https://github.com/bcomnes/twitvid",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bcomnes/twitvid.git"
+  },
+  "scripts": {
+    "test": "standard && tape test/*.js | tap-spec"
+  },
+  "dependencies": {
+    "qs": "^4.0.0",
+    "request": "^2.60.0",
+    "twit": "^2.1.0",
+    "util-extend": "^1.0.1"
+  }
+}
