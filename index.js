@@ -77,7 +77,6 @@ function twitterUpload (media_id, baseReq) {
         media: chunk
       }
     }, baseReq)
-    console.log(appendReq)
     request.post(appendReq, function append (err, res, body) {
       next(err)
     })
