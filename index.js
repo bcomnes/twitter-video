@@ -38,14 +38,10 @@ function twitterVideo (path, oauth, cb) {
   fs.stat(path, function (err, stats) {
     if (err) return cb(err)
     initReq.formData.total_bytes = stats.size
-    request.post(initReq, function cb (err, res, body) {
-      debugger
+    request.post(initReq, function initCb (err, res, body) {
       if (err) return cb(err)
-      console.log(body)
       media_id = body.media_id_string
       finalReq.formData.media_id = media_id
-
-      console.log(finalReq)
 
       var twitAppend = twitterUpload(media_id, baseReq)
       var fileStream = fs.createReadStream(path)
