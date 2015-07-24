@@ -3,11 +3,6 @@
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 
-[npm-image]: https://img.shields.io/npm/v/twitter-video.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/twitter-video
-[travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
-[travis-url]: https://travis-ci.org/bcomnes/twitter-video
-
 Posts native video to twitter's difficult to use™ video API.
 
 ## Install
@@ -41,6 +36,49 @@ twitterVideo(PATH, oauth, function (err, media_id) {
 })
 ```
 
+## CLI
+
+```
+npm i -g twitter-video
+```
+
+Installing this globally gives you access to the `twitter-video` command:
+
+```
+$ twitter-video
+Uploads .mp4 video to twitter with a status updates
+Usage: twitter-video [options]
+    --config              configure your API keys
+    --video, -v           path to mp4 file e.g. '~/myVideo.mp4' (requires -s)
+    --status, -s          twitter status text e.g. 'this is a tweet yolo' (requires -v)
+
+```
+
+Before you can post videos to twitter, you need to configure your oAuth keys.
+
+1. Visit: https://apps.twitter.com
+2. Create a new app.  This requires that a cell number is added to your twitter account.
+3. Generate an access token on the "Keys and Access Tokens" tab
+
+Next configure `twitter-video`
+
+```
+$ twitter-video --config
+? Consumer Key 123
+? Consumer Secret ***
+? Access Token 123
+? Access Token Secret ***
+Attention: Secret API keys saved to /Users/username/.config/twitter-video
+Ready to Send!
+```
+
+Now you can post a tweet with a native video!
+
+```
+$ twitter-video -v DRQCQaiww7XlAYJP.mp4 -s 'engage'
+Post created at: https://twitter.com/twittername/status/624602234223865857
+```
+
 ## Contributing
 
 Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first.
@@ -48,3 +86,9 @@ Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md
 ## License
 
 [ISC](LICENSE.md)
+
+
+[npm-image]: https://img.shields.io/npm/v/twitter-video.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/twitter-video
+[travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
+[travis-url]: https://travis-ci.org/bcomnes/twitter-video
