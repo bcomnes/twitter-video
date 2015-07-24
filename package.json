@@ -12,7 +12,7 @@
     "tape": "^4.0.0"
   },
   "homepage": "https://github.com/bcomnes/twitter-video",
-  "keywords": [],
+  "keywords": ["twitter", "video", "twitter vide", "twitter api", "native", "native video"],
   "license": "ISC",
   "main": "index.js",
   "bin": "./bin/twitter-video",
