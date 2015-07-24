@@ -100,7 +100,7 @@ function configIsGood (appCfg) {
 }
 
 function printHelp () {
-  console.log('Uploads .mp4 video to twitter with a status updates')
+  console.log('Uploads .mp4 video to twitter with a status update')
   console.log('Usage: %s [options]', appname)
   cliOpts.print()
   process.exit()

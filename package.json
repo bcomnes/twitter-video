@@ -1,6 +1,7 @@
 {
   "name": "twitter-video",
   "version": "1.0.2",
+  "description": "Easily posts native video to twitter's video API.",
   "author": "Bret Comnes <bcomnes@gmail.com>",
   "bugs": {
     "url": "https://github.com/bcomnes/twitter-video/issues"
