@@ -3,11 +3,6 @@
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 
-[npm-image]: https://img.shields.io/npm/v/twitter-video.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/twitter-video
-[travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
-[travis-url]: https://travis-ci.org/bcomnes/twitter-video
-
 Posts native video to twitter's difficult to use™ video API.
 
 ## Install
@@ -91,3 +86,9 @@ Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md
 ## License
 
 [ISC](LICENSE.md)
+
+
+[npm-image]: https://img.shields.io/npm/v/twitter-video.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/twitter-video
+[travis-image]: https://img.shields.io/travis/bcomnes/twitter-video.svg?style=flat-square
+[travis-url]: https://travis-ci.org/bcomnes/twitter-video
