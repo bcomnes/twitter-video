@@ -77,7 +77,7 @@ function main () {
       var params = {status: status, media_ids: [ media_id ]}
       T.post('statuses/update', params, function post (err, data, res) {
         if (err) return console.error(err)
-        console.log('Post created at: https://twitter.com/' + data.screen_name + '/status/' + data.id_str)
+        console.log('Post created at: https://twitter.com/' + data.user.screen_name + '/status/' + data.id_str)
         process.exit()
       })
     })
