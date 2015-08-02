@@ -1,14 +1,16 @@
 var request = require('request')
 var fs = require('fs')
-var Writable = require('stream').Writable
 var extend = require('util-extend')
+var duplexify = require('duplexify')
+var through = require('through2')
 
+// Caution!
+// // https://dev.twitter.com/overview/api/twitter-ids-json-and-snowflake
 var ENDPOINT = 'https://upload.twitter.com/1.1/media/upload.json'
 
-function twitterVideo (path, oauth, cb) {
-  // Caution!
-  // https://dev.twitter.com/overview/api/twitter-ids-json-and-snowflake
+function twitterVideo (oauth, total_bytes) {
   var media_id
+  var dup = duplexify()
   var oauthReq = {
     consumer_key: oauth.consumer_key,
     consumer_secret: oauth.consumer_secret,
@@ -22,41 +24,40 @@ function twitterVideo (path, oauth, cb) {
     json: true
   }
 
-  var initReq = extend({
-    formData: {
-      media_type: 'video/mp4',
-      command: 'INIT'
-    }
-  }, baseReq)
+  dup.once('pipe', initialRequest)
 
-  var finalReq = extend({
-    formData: {
-      command: 'FINALIZE'
-    }
-  }, baseReq)
+  function initialRequest () {
+    var initReq = extend({
+      formData: {
+        media_type: 'video/mp4',
+        command: 'INIT',
+        total_bytes: total_bytes || 15000000
+      }
+    }, baseReq)
+    request.post(initReq, initCb)
+  }
 
-  fs.stat(path, function (err, stats) {
-    if (err) return cb(err)
-    initReq.formData.total_bytes = stats.size
-    request.post(initReq, function initCb (err, res, body) {
+  function initCb (err, res, body) {
+    if (err) return dup.destroy(err)
+    media_id = body.media_id_string
+    dup.setWritable(appendStream(media_id, baseReq, finalRequest))
+  }
+
+  function finalRequest (cb) {
+    var finalReq = extend({
+      formData: {
+        command: 'FINALIZE',
+        media_id: media_id
+      }
+    }, baseReq)
+    request.post(finalReq, function (err, res, body) {
       if (err) return cb(err)
-      media_id = body.media_id_string
-      finalReq.formData.media_id = media_id
-
-      var twitAppend = twitterUpload(media_id, baseReq)
-      var fileStream = fs.createReadStream(path)
-
-      twitAppend.on('error', function streamError (err) {
-        return cb(err)
-      })
-      twitAppend.on('finish', function finalize () {
-        request.post(finalReq, function (err, res, body) {
-          return cb(err, media_id)
-        })
-      })
-      fileStream.pipe(twitAppend)
+      dup.emit('media_id', media_id)
+      return cb()
     })
-  })
+  }
+
+  return dup
 }
 
 function counter () {
@@ -66,22 +67,43 @@ function counter () {
   }
 }
 
-function twitterUpload (media_id, baseReq) {
+function appendStream (media_id, baseReq, flush) {
   var c = counter()
-  var append = Writable()
-  append._write = function write (chunk, enc, next) {
-    var appendReq = extend({ formData: {
-        segment_index: c(),
-        command: 'APPEND',
-        media_id: media_id,
-        media: chunk
-      }
-    }, baseReq)
+  var append = through(write, flush)
+  var appendReq = extend({ formData: {
+      command: 'APPEND',
+      media_id: media_id
+    }
+  }, baseReq)
+
+  function write (chunk, enc, next) {
+    appendReq.formData.segment_index = c()
+    appendReq.formData.media = chunk
     request.post(appendReq, function append (err, res, body) {
       next(err)
     })
   }
+
   return append
 }
 
+function fromFile (path, oauth, cb) {
+  fs.stat(path, function (err, stats) {
+    if (err) return cb(err)
+    var fileSize = stats.size
+    var fileStream = fs.createReadStream(path)
+    var videoStream = twitterVideo(oauth, fileSize)
+    videoStream.on('error', function streamError (err) {
+      return cb(err)
+    })
+    videoStream.on('finish', function finalize () {
+      videoStream.once('media_id', function (media_id) {
+        return cb(null, media_id)
+      })
+    })
+    fileStream.pipe(videoStream)
+  })
+}
+
+twitterVideo.fromFile = fromFile
 module.exports = twitterVideo

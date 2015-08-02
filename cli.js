@@ -72,7 +72,7 @@ function main () {
     var T = new Twit(oauth)
     var PATH = argv.video
     var status = argv.status
-    twitterVideo(PATH, oauth, function (err, media_id) {
+    twitterVideo.fromFile(PATH, oauth, function (err, media_id) {
       if (err) throw err
       var params = {status: status, media_ids: [ media_id ]}
       T.post('statuses/update', params, function post (err, data, res) {
