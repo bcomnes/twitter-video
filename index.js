@@ -97,7 +97,7 @@ function fromFile (path, oauth, cb) {
       return cb(err)
     })
     videoStream.on('finish', function finalize () {
-      videoStream.once('media_id', function (media_id) {
+      videoStream.on('media_id', function (media_id) {
         return cb(null, media_id)
       })
     })
