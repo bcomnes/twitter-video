@@ -3,7 +3,7 @@
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 
-Posts native video to twitter's difficult to use™ video API.
+Posts native video to twitter's video API.
 
 ## Install
 
