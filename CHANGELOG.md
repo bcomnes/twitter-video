@@ -1,7 +1,12 @@
-# twitvid change log
+# twitter-video change log
 
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+
+# 2.0.0 2015-08-05
+* Introduced streaming interface as the default export.  Initial documentation on how to use is in the readme.
+* Old file path based interface moved to the `.fromFile` method.  It should work the same.
+* More README updates, and streaming API improvements coming soon!
 
 # 1.0.7 2015-07-24
 * added `package.json` keywords

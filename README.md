@@ -27,13 +27,27 @@ var oauth = {
 var T = Twit(oauth)
 var PATH = '/path/to/video.mp4'
 
-twitterVideo(PATH, oauth, function (err, media_id) {
+twitterVideo.fromFile(PATH, oauth, function (err, media_id) {
   // Now you have a media ID you can post with a tweet
   var params = {status: 'yolo', media_ids: [ media_id ]}
   T.post('statuses/update', params, function post (err, data, res) {
     // Tweet with video is live
   })
 })
+
+var twitterStream = twitterVideo(oauth)
+var videoStream = fs.createWriteStream(PATH)
+
+twitterStream.on('finish', function() {
+  twitterStream.on('media_id', function(media_id) {
+    var params = {status: 'so nice i posted it twice', media_ids: [ media_id ]}
+    T.post('statuses/update', params, function post (err, data, res) {
+      // Tweet with video is live
+    })
+  })
+})
+
+videoStream.pipe(twitterStream)
 ```
 
 ## CLI
@@ -82,6 +96,10 @@ Post created at: https://twitter.com/twittername/status/624602234223865857
 ## Contributing
 
 Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for news and updates.
 
 ## License
 
