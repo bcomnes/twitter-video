@@ -1,5 +1,7 @@
 # twitter-video
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bcomnes/twitter-video.svg)](https://greenkeeper.io/)
+
 [![npm][npm-image]][npm-url]
 [![travis][travis-image]][travis-url]
 
